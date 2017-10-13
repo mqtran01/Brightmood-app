@@ -126,7 +126,7 @@ public class FitbitActivity extends AppCompatActivity {
 //                    mTextMessage.setText(msg);
 //
 //                }
-
+                mTextMessage.setText(msg);
                 GatewayHandler handler = new GatewayHandler();
                 //handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=2");
 

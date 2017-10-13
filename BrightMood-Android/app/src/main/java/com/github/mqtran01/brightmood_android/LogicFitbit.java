@@ -24,10 +24,10 @@ public class LogicFitbit {
         if (jsonStr != null) {
             try {
                 JSONObject jsonObj = new JSONObject(jsonStr);
-                JSONObject jsonChild = new JSONObject("activities-heart-intraday");
+                JSONObject jsonChild = jsonObj.getJSONObject("activities-heart-intraday");
                 // Getting JSON Array node
                 // looping through All datas
-                JSONArray jsonArray = new JSONArray(jsonChild.getJSONArray("dataset"));
+                JSONArray jsonArray = jsonChild.getJSONArray("dataset");
                 int sum1 = 0;
                 int sum2 = 0;
                 for (int i = 0; i < jsonArray.length(); i++) {
