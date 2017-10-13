@@ -118,8 +118,8 @@ public class FitbitActivity extends AppCompatActivity {
 
         mTextMessage = (TextView) findViewById(R.id.message);
 
-        facebookSlider = (SeekBar) findViewById(R.id.seekBar);
-        fitbitSlider = (SeekBar) findViewById(R.id.seekBar2);
+        //facebookSlider = (SeekBar) findViewById(R.id.seekBar);
+        //fitbitSlider = (SeekBar) findViewById(R.id.seekBar2);
 
         sendButton = (Button) findViewById(R.id.button10);
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -130,19 +130,16 @@ public class FitbitActivity extends AppCompatActivity {
                 StrictMode.ThreadPolicy tp = StrictMode.ThreadPolicy.LAX;
                 StrictMode.setThreadPolicy(tp);
                 String msg = fitbit.logicFitbit(mTextMessage);
-//                if(msg == null) {
-//                    mTextMessage.setText("I am null");
-//                } else {
-//                    mTextMessage.setText(msg);
-//
-//                }
                 mTextMessage.setText(msg);
-//                GatewayHandler handler = new GatewayHandler();
-                //handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=2");
+                GatewayHandler handler = new GatewayHandler(mTextMessage);
+                handler.execute(msg);
 
-//                        facebookSlider.getProgress() + "&c=0&l=" + fitbitSlider.getProgress() * 20
+
+//GatewayHandler handler = new GatewayHandler();
+// handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=2");
+//facebookSlider.getProgress() + "&c=0&l=" + fitbitSlider.getProgress() * 20
 //new String[]{//"http://httpbin.org/get?facebook=" +
-            // facebookSlider.getProgress() + "&fitbit=" + fitbitSlider.getProgress()});
+//facebookSlider.getProgress() + "&fitbit=" + fitbitSlider.getProgress()});
 
         }
         });

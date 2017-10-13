@@ -5,8 +5,9 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.github.mqtran01.brightmood_android.FitbitActivity">
+    tools:context="com.github.mqtran01.brightmood_android.FitbitActivity"
+    android:baselineAligned="false"
+    android:orientation="vertical">
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -20,7 +21,7 @@
         android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="Fitbit functionality" />
 
     <SeekBar
         android:id="@+id/seekBar"
@@ -28,7 +29,22 @@
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:max="4"
-        android:progress="3" />
+        android:progress="3"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/button10"
+        android:layout_width="223dp"
+        android:layout_height="50dp"
+        android:background="@drawable/buttonshape"
+        android:paddingBottom="10dp"
+        android:paddingHorizontal="40dp"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:text="Click Me To Refresh"
+        android:textColor="#FFFFFF" />
 
     <SeekBar
         android:id="@+id/seekBar2"
@@ -36,19 +52,19 @@
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:max="4"
-        android:progress="3" />
-
-    <Button
-        android:id="@+id/button10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Send" />
+        android:progress="3"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/speechBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Speech" />
+
+        android:layout_width="120dp"
+        android:layout_height="118dp"
+        android:background="@drawable/round_button"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Speech"
+        android:textColor="#fff" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
