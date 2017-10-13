@@ -1,6 +1,7 @@
 package com.github.mqtran01.brightmood_android;
 
 import android.Manifest;
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -80,26 +81,35 @@ public class FitbitActivity extends AppCompatActivity {
     };
 
 
-//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-//            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-//
-//        @Override
-//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//            switch (item.getItemId()) {
-//                case R.id.navigation_home:
-//                    mTextMessage.setText(R.string.title_home);
-//                    return true;
-//                case R.id.navigation_dashboard:
-//                    mTextMessage.setText(R.string.title_dashboard);
-//                    return true;
-//                case R.id.navigation_notifications:
-//                    mTextMessage.setText(R.string.title_notifications);
-//                    return true;
-//            }
-//            return false;
-//        }
-//
-//    };
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    mTextMessage.setText(R.string.title_home);
+
+                    return true;
+                case R.id.navigation_dashboard:
+                    mTextMessage.setText(R.string.title_dashboard);
+                    Intent speechIntent = new Intent(FitbitActivity.this, SpeechActivity.class);
+                    speechIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                    startActivity(speechIntent);
+                    FitbitActivity.this.finish();
+                    return true;
+                case R.id.navigation_notifications:
+                    mTextMessage.setText(R.string.title_notifications);
+                    Intent btIntent = new Intent(FitbitActivity.this, BluetoothActivity.class);
+                    btIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                    startActivity(btIntent);
+                    FitbitActivity.this.finish();
+                    return true;
+            }
+            return false;
+        }
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +137,7 @@ public class FitbitActivity extends AppCompatActivity {
 //
 //                }
                 mTextMessage.setText(msg);
-                GatewayHandler handler = new GatewayHandler();
+//                GatewayHandler handler = new GatewayHandler();
                 //handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=2");
 
 //                        facebookSlider.getProgress() + "&c=0&l=" + fitbitSlider.getProgress() * 20
@@ -146,8 +156,8 @@ public class FitbitActivity extends AppCompatActivity {
         });
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
-//        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-//        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 //        BTAdapter.startDiscovery();
         final BluetoothManager BTManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         if (BTAdapter == null || !BTAdapter.isEnabled()) {
@@ -205,21 +215,21 @@ public class FitbitActivity extends AppCompatActivity {
         ArrayList<String> words = new ArrayList<>(Arrays.asList(text.split(" ")));
         if (words.contains("blue")) {
             mTextMessage.setText("blue detected");
-            GatewayHandler handler = new GatewayHandler();
+            GatewayHandler handler = new GatewayHandler(mTextMessage);
             handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=5");
         } else if (words.contains("red")) {
             mTextMessage.setText("red detected");
-            GatewayHandler handler = new GatewayHandler();
+            GatewayHandler handler = new GatewayHandler(mTextMessage);
             handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=3");
         } else if (words.contains("green")) {
             mTextMessage.setText("green detected");
-            GatewayHandler handler = new GatewayHandler();
+            GatewayHandler handler = new GatewayHandler(mTextMessage);
             handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=2");
         } else if (words.contains("off")) {
             mTextMessage.setText("off detected");
         } else if (words.contains("on")) {
             mTextMessage.setText("on detected");
-            GatewayHandler handler = new GatewayHandler();
+            GatewayHandler handler = new GatewayHandler(mTextMessage);
             handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=1");
         } else {
             mTextMessage.setText(text);
@@ -240,30 +250,6 @@ public class FitbitActivity extends AppCompatActivity {
             int mRssi = result.getRssi();
         }
     };
-
-    private class GatewayHandler extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... urls) {
-            // we use the OkHttp library from https://github.com/square/okhttp
-            OkHttpClient client = new OkHttpClient();
-            Request request =
-                    new Request.Builder()
-                            .url(urls[0])
-                            .build();
-            try {
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-            } catch (IOException e) {
-                e.printStackTrace();
-        }
-            return "Failed send";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            mTextMessage.setText(result);
-        }
-    }
 
 
 
