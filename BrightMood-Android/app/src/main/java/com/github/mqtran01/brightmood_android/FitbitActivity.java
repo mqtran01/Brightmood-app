@@ -213,24 +213,37 @@ public class FitbitActivity extends AppCompatActivity {
 
     private void chooseLighting(String text) {
         ArrayList<String> words = new ArrayList<>(Arrays.asList(text.split(" ")));
-        if (words.contains("blue")) {
-            mTextMessage.setText("blue detected");
-            GatewayHandler handler = new GatewayHandler(mTextMessage);
+        GatewayHandler handler = new GatewayHandler(mTextMessage);
+        if (words.contains("white")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=1");
+            mTextMessage.setText("white detected");
+        } else if (words.contains("blue")) {
             handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=5");
+            mTextMessage.setText("blue detected");
         } else if (words.contains("red")) {
-            mTextMessage.setText("red detected");
-            GatewayHandler handler = new GatewayHandler(mTextMessage);
             handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=3");
+            mTextMessage.setText("red detected");
         } else if (words.contains("green")) {
-            mTextMessage.setText("green detected");
-            GatewayHandler handler = new GatewayHandler(mTextMessage);
             handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=2");
+            mTextMessage.setText("green detected");
+        } else if (words.contains("dim")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&l=50&f=1");
+            mTextMessage.setText("dim detected");
         } else if (words.contains("off")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=4");
             mTextMessage.setText("off detected");
         } else if (words.contains("on")) {
-            mTextMessage.setText("on detected");
-            GatewayHandler handler = new GatewayHandler(mTextMessage);
             handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=1");
+            mTextMessage.setText("on detected");
+        } else if (words.contains("applause")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=10&p=3");
+            mTextMessage.setText("applause detected");
+        } else if (words.contains("party")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=10&p=4");
+            mTextMessage.setText("party detected");
+        } else if (words.contains("relax")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=10&p=5");
+            mTextMessage.setText("relax detected");
         } else {
             mTextMessage.setText(text);
         }
