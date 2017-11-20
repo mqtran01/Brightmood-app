@@ -119,7 +119,7 @@ public class FitbitActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
 
         //facebookSlider = (SeekBar) findViewById(R.id.seekBar);
-        //fitbitSlider = (SeekBar) findViewById(R.id.seekBar2);
+        fitbitSlider = (SeekBar) findViewById(R.id.seekBar);
 
         sendButton = (Button) findViewById(R.id.button10);
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +129,7 @@ public class FitbitActivity extends AppCompatActivity {
                 LogicFitbit fitbit = new LogicFitbit();
                 StrictMode.ThreadPolicy tp = StrictMode.ThreadPolicy.LAX;
                 StrictMode.setThreadPolicy(tp);
-                String msg = fitbit.logicFitbit(mTextMessage);
+                String msg = fitbit.logicFitbit(mTextMessage,fitbitSlider.getProgress());
                 mTextMessage.setText(msg);
                 GatewayHandler handler = new GatewayHandler(mTextMessage);
                 handler.execute(msg);
@@ -209,26 +209,57 @@ public class FitbitActivity extends AppCompatActivity {
     }
 
     private void chooseLighting(String text) {
-        ArrayList<String> words = new ArrayList<>(Arrays.asList(text.split(" ")));
+        ArrayList<String> wordsRaw = new ArrayList<>(Arrays.asList(text.split(" ")));
+        ArrayList<String> words = new ArrayList<>();
+        for (String word: wordsRaw) {
+            words.add(word.toLowerCase());
+        }
         GatewayHandler handler = new GatewayHandler(mTextMessage);
-        if (words.contains("white")) {
+        if (words.contains("living") && words.contains("on")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=7&p=1");
+            mTextMessage.setText("living on detected");
+        } else if (words.contains("living")&& words.contains("off")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=7&p=4");
+            mTextMessage.setText("living off detected");
+        } else if (words.contains("dining") && words.contains("on")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=8&p=1");
+            mTextMessage.setText("dining on detected");
+        } else if (words.contains("dining")&& words.contains("off")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=8&p=4");
+            mTextMessage.setText("dining off detected");
+        } else if (words.contains("master") && words.contains("bedroom") && words.contains("on")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=17&p=1");
+            mTextMessage.setText("Master bedroom on detected");
+        } else if (words.contains("master") && words.contains("bedroom") && words.contains("off")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=17&p=4");
+            mTextMessage.setText("Master bedroom off detected");
+        } else if (words.contains("kitchen") && words.contains("on")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=9&p=1");
+            mTextMessage.setText("kitchen on detected");
+        } else if (words.contains("kitchen")&& words.contains("off")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=9&p=4");
+            mTextMessage.setText("kitchen off detected");
+        } else if ((words.contains("garage") && words.contains("on")) || words.contains("car") || words.contains("leaving")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=19&p=1");
+            mTextMessage.setText("garage on detected");
+        } else if (words.contains("garage")&& words.contains("off")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=19&p=4");
+            mTextMessage.setText("garage off detected");
+        } else if (words.contains("white")) {
             handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=1");
             mTextMessage.setText("white detected");
-        } else if (words.contains("blue")) {
+        } else if (words.contains("blue") || words.contains("beach")) {
             handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=5");
             mTextMessage.setText("blue detected");
-        } else if (words.contains("red")) {
+        } else if (words.contains("red") || words.contains("angry")) {
             handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=3");
             mTextMessage.setText("red detected");
-        } else if (words.contains("green")) {
+        } else if (words.contains("green") || words.contains("park"))  {
             handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=2");
             mTextMessage.setText("green detected");
         } else if (words.contains("dim")) {
             handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&l=50&f=1");
             mTextMessage.setText("dim detected");
-        } else if (words.contains("off")) {
-            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=4");
-            mTextMessage.setText("off detected");
         } else if (words.contains("on")) {
             handler.execute("http://192.168.1.32/SetDyNet.cgi?a=2&p=1");
             mTextMessage.setText("on detected");
@@ -241,7 +272,11 @@ public class FitbitActivity extends AppCompatActivity {
         } else if (words.contains("relax")) {
             handler.execute("http://192.168.1.32/SetDyNet.cgi?a=10&p=5");
             mTextMessage.setText("relax detected");
-        } else {
+        } else if (words.contains("quit") || words.contains("exit") || words.contains("night")||words.contains("stop")|| words.contains("off")|| words.contains("cancel")) {
+            handler.execute("http://192.168.1.32/SetDyNet.cgi?a=10&p=7");
+            mTextMessage.setText("stop/off/cancel detected");
+        }
+        else {
             mTextMessage.setText(text);
         }
     }

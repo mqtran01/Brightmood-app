@@ -43,7 +43,7 @@
         android:textSize="30sp"
 
         android:layout_width="270dp"
-        android:layout_height="60dp"
+        android:layout_height="250dp"
         android:background="@drawable/buttonshape"
         android:shadowColor="#4F4F4F"
         android:shadowDx="0"

@@ -13,7 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.*;
 public class LogicFitbit {
-    public String logicFitbit(TextView tv) {
+    public String logicFitbit(TextView tv,int progress) {
         tv.setText("Into Logic Fitbit");
         HttpHandler sh = new HttpHandler(tv);
         // Making a request to url and getting response
@@ -27,13 +27,20 @@ public class LogicFitbit {
         String currentTime1 = sdf.format(cal1.getTime());
         String currentTime2 = sdf.format(cal2.getTime());
         String url = "https://api.fitbit.com/1/user/-/activities/heart/date/today/1d/1sec/time/"+currentTime1+"/"+currentTime2+".json";
-        String url1 = "https://api.fitbit.com/1/user/-/activities/heart/date/2017-10-13/1d/1sec/time/23:01/23:02.json";
+
+        if(progress ==0 )//run is progress 0
+            url = "https://api.fitbit.com/1/user/-/activities/heart/date/2017-10-11/1d/1sec/time/16:47/16:57.json";
+        else if(progress == 1)
+            url = "https://api.fitbit.com/1/user/-/activities/heart/date/2017-10-12/1d/1sec/time/23:01/23:02.json";
 //  String url = "https://www.google.com.au";
 
-
+        else
+            url = "https://api.fitbit.com/1/user/-/activities/heart/date/today/1d/1sec/time/"+currentTime1+"/"+currentTime2+".json";
         String jsonStr = sh.makeServiceCall(url);
 
+
         //Log.e(TAG, "Response from url: " + jsonStr);
+
         if (jsonStr != null) {
             try {
                 JSONObject jsonObj = new JSONObject(jsonStr);
@@ -52,10 +59,10 @@ public class LogicFitbit {
                     int value = c.getInt("value");
                     //in 30 sec period the sum of heart rate
                     if(value > 90)
-                        return value+"http://192.168.1.32/SetDyNet.cgi?a=10&p=2";
+                        return "http://192.168.1.32/SetDyNet.cgi?a=10&p=2";
 
                     else
-                        return value+"http://192.168.1.32/SetDyNet.cgi?a=10&p=1";
+                        return "http://192.168.1.32/SetDyNet.cgi?a=10&p=1";
 
                     //if (i < jsonArray.length() / 2) {
                     //    sum1 += value;
@@ -73,7 +80,7 @@ public class LogicFitbit {
                     int a = cal.get(Calendar.MINUTE) % 2;
                     if(a==0)
                         return "http://192.168.1.32/SetDyNet.cgi?a=10&p=2";
-                    else
+                    else if(a==1)
                         return "http://192.168.1.32/SetDyNet.cgi?a=10&p=1";
                 }
                 else

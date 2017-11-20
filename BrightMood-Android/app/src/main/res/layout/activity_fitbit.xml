@@ -6,6 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.github.mqtran01.brightmood_android.FitbitActivity"
+    android:gravity="center_vertical"
+    android:background="#F7D08A"
+    android:layout_gravity="center_vertical"
     android:baselineAligned="false"
     android:orientation="vertical">
 
@@ -14,7 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
+
+        android:background ="#79BEEE"
         app:menu="@menu/navigation" />
 
     <TextView
@@ -28,9 +32,10 @@
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:max="4"
-        android:progress="3"
-        android:visibility="invisible" />
+        android:max="2"
+        android:thumb="@drawable/incentives_progress_pin"
+        android:progress="2"
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/button10"
@@ -46,24 +51,17 @@
         android:text="Click Me To Refresh"
         android:textColor="#FFFFFF" />
 
-    <SeekBar
-        android:id="@+id/seekBar2"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:max="4"
-        android:progress="3"
-        android:visibility="invisible" />
+
 
     <Button
         android:id="@+id/speechBtn"
 
-        android:layout_width="120dp"
-        android:layout_height="118dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:background="@drawable/round_button"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="Speech"
-        android:textColor="#fff" />
+        android:textColor="#F4F4F9"
+        android:text = "Speech"
+        android:layout_gravity="center_vertical" />
 
 
     <LinearLayout

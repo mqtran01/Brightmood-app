@@ -37,6 +37,6 @@ public class GatewayHandler extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        tv.setText(result);
+//        tv.setText(result);
     }
 }
